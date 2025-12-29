@@ -1,3 +1,5 @@
+package domain;
+
 public enum Outcome {
     WIN(3, 'W'),
     DRAW(1, 'D'),

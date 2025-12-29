@@ -1,8 +1,12 @@
+package stats;
+
+import domain.Outcome;
 import org.junit.jupiter.api.Test;
+import utils.BaseUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class TeamStatsTest extends BaseTest {
+class TeamStatsTest extends BaseUnit {
 
     @Test
     void testForm() {

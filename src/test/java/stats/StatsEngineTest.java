@@ -1,9 +1,15 @@
+package stats;
+
+import domain.EventType;
+import domain.GetStatisticsEvent;
+import domain.ResultEvent;
 import org.junit.jupiter.api.Test;
+import utils.BaseUnit;
 
 import static java.util.List.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class StatsEngineTest extends BaseTest {
+class StatsEngineTest extends BaseUnit {
 
     @Test
     void testOnResult() {

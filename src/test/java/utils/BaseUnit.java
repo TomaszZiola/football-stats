@@ -1,6 +1,11 @@
-import org.junit.jupiter.api.BeforeEach;
+package utils;
 
-class BaseTest {
+import domain.TeamStats;
+import org.junit.jupiter.api.BeforeEach;
+import parser.MessageParser;
+import stats.StatsEngine;
+
+public class BaseUnit {
 
     protected MessageParser parser;
     protected StatsEngine engine;

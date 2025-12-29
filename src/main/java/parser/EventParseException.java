@@ -1,3 +1,5 @@
+package parser;
+
 public final class EventParseException extends RuntimeException {
     private final String code;
 

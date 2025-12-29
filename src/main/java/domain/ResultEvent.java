@@ -1,3 +1,5 @@
+package domain;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record ResultEvent(

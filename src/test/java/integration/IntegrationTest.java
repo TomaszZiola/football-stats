@@ -1,4 +1,9 @@
+package integration;
+
+import app.Main;
 import org.junit.jupiter.api.Test;
+import parser.EventParseException;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
