@@ -24,23 +24,23 @@ public final class Main {
         var engine = new StatsEngine();
 
         try (BufferedReader reader = openResource(resourceName)) {
-            String line;
+            String currentLine;
             int lineNumber = 0;
-            while ((line = reader.readLine()) != null) {
+            while ((currentLine = reader.readLine()) != null) {
                 lineNumber++;
-                processLine(line, lineNumber, parser, engine);
+                processLine(currentLine, lineNumber, parser, engine);
             }
         }
     }
 
     private static void processLine(String line, int lineNumber, MessageParser parser, StatsEngine engine) {
-        var trimmed = line.trim();
-        if (trimmed.isEmpty()) {
+        var trimmedLine = line.trim();
+        if (trimmedLine.isEmpty()) {
             return;
         }
 
         try {
-            var event = parser.parseEvent(trimmed);
+            var event = parser.parseEvent(trimmedLine);
 
             var outputLines = switch (event) {
                 case ResultEvent resultEvent -> engine.onResult(resultEvent);
@@ -52,7 +52,7 @@ public final class Main {
             throw new EventParseException(
                     exception.code(),
                     String.format("Invalid input at line %d [%s]: %s | input=%s",
-                            lineNumber, exception.code(), exception.getMessage(), trimmed),
+                            lineNumber, exception.code(), exception.getMessage(), trimmedLine),
                     exception
             );
         }

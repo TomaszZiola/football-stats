@@ -59,8 +59,8 @@ public class TeamStats {
 
     public String getRecentForm() {
         var stringBuilder = new StringBuilder(lastMatches.size());
-        for (var m : lastMatches) {
-            stringBuilder.append(m.outcome.letter());
+        for (var matchResult : lastMatches) {
+            stringBuilder.append(matchResult.outcome.letter());
         }
         return stringBuilder.toString();
     }

@@ -22,9 +22,7 @@ public final class MessageParser {
             if (typeNode == null || typeNode.isNull()) {
                 throw new EventParseException("MISSING_TYPE", "Missing 'type' field in message");
             }
-            final EventType eventType;
-
-            eventType = getEventType(typeNode);
+            final var eventType = getEventType(typeNode);
 
             return switch (eventType) {
                 case RESULT -> objectMapper.treeToValue(root, ResultEvent.class);
