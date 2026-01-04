@@ -26,7 +26,7 @@ class EventProcessorTest extends BaseUnit {
     @Test
     void shouldWrapParserExceptionWithLineInfo() {
         // when
-        EventParseException exception = assertThrows(EventParseException.class,
+        var exception = assertThrows(EventParseException.class,
                 () -> processorImpl.processLine(invalidline, 5));
 
         // then
@@ -49,7 +49,7 @@ class EventProcessorTest extends BaseUnit {
         when(parser.parseEvent(any())).thenThrow(new RuntimeException("Boom"));
 
         // when
-        EventParseException exception = assertThrows(EventParseException.class,
+        var exception = assertThrows(EventParseException.class,
                 () -> processorImpl.processLine(line, 1));
 
         // then
