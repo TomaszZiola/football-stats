@@ -1,7 +1,6 @@
 package stats;
 
 import domain.GetStatisticsEvent;
-import domain.Outcome;
 import domain.ResultEvent;
 import domain.TeamStats;
 import format.TeamStatsFormatter;
@@ -9,6 +8,9 @@ import format.TeamStatsFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static domain.Outcome.forScore;
+import static format.TeamStatsFormatter.formatResult;
 
 public final class StatsEngine {
 
@@ -25,12 +27,12 @@ public final class StatsEngine {
         var homeStats = getTeamStats(home);
         var awayStats = getTeamStats(away);
 
-        homeStats.applyMatch(homeScore, awayScore, Outcome.forScore(homeScore, awayScore));
-        awayStats.applyMatch(awayScore, homeScore, Outcome.forScore(awayScore, homeScore));
+        homeStats.applyMatch(homeScore, awayScore, forScore(homeScore, awayScore));
+        awayStats.applyMatch(awayScore, homeScore, forScore(awayScore, homeScore));
 
         return List.of(
-                TeamStatsFormatter.formatResult(home, homeStats),
-                TeamStatsFormatter.formatResult(away, awayStats)
+                formatResult(home, homeStats),
+                formatResult(away, awayStats)
         );
     }
 
