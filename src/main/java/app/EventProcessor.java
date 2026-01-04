@@ -8,6 +8,8 @@ import stats.StatsEngine;
 
 import java.util.function.Consumer;
 
+import static java.lang.String.format;
+
 public class EventProcessor {
     private final MessageParser parser;
     private final StatsEngine engine;
@@ -32,19 +34,18 @@ public class EventProcessor {
                 case ResultEvent resultEvent -> engine.onResult(resultEvent);
                 case GetStatisticsEvent getStatisticsEvent -> engine.onGetStatistics(getStatisticsEvent);
             };
-
             outputLines.forEach(outputConsumer);
         } catch (EventParseException exception) {
             throw new EventParseException(
                     exception.code(),
-                    String.format("Invalid input at line %d [%s]: %s | input=%s",
+                    format("Invalid input at line %d [%s]: %s | input=%s",
                             lineNumber, exception.code(), exception.getMessage(), trimmedLine),
                     exception
             );
         } catch (Exception exception) {
             throw new EventParseException(
                     "PROCESS_ERROR",
-                    String.format("Error processing line %d: %s | input=%s",
+                    format("Error processing line %d: %s | input=%s",
                             lineNumber, exception.getMessage(), trimmedLine),
                     exception
             );

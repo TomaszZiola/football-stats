@@ -8,6 +8,8 @@ import domain.EventType;
 import domain.GetStatisticsEvent;
 import domain.ResultEvent;
 
+import static domain.EventType.valueOf;
+
 public final class MessageParser {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -37,7 +39,7 @@ public final class MessageParser {
     private static EventType getEventType(JsonNode typeNode) {
         final EventType eventType;
         try {
-            eventType = EventType.valueOf(typeNode.asText());
+            eventType = valueOf(typeNode.asText());
         } catch (IllegalArgumentException ex) {
             throw new EventParseException("UNKNOWN_TYPE", "Unknown message type: " + typeNode.asText(), ex);
         }

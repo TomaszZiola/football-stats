@@ -3,7 +3,6 @@ package stats;
 import domain.GetStatisticsEvent;
 import domain.ResultEvent;
 import domain.TeamStats;
-import format.TeamStatsFormatter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.Map;
 
 import static domain.Outcome.forScore;
 import static format.TeamStatsFormatter.formatResult;
+import static format.TeamStatsFormatter.formatStatistics;
 
 public final class StatsEngine {
 
@@ -38,7 +38,7 @@ public final class StatsEngine {
 
     public List<String> onGetStatistics(GetStatisticsEvent event) {
         return event.getStatistics().teams().stream()
-                .map(team -> TeamStatsFormatter.formatStatistics(team, getTeamStats(team)))
+                .map(team -> formatStatistics(team, getTeamStats(team)))
                 .toList();
     }
 
