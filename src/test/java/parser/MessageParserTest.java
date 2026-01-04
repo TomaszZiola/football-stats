@@ -56,7 +56,16 @@ class MessageParserTest extends BaseUnit {
                 Arguments.of("[\"not an object\"]", "INVALID_JSON", "Input must be a JSON object"),
                 Arguments.of("""
                         {"type": "RESULT", "result": {"home_team": "A", "away_team": "B", "home_score": -1, "away_score": 0}}
-                        """, "INVALID_JSON", null)
+                        """, "INVALID_JSON", "Scores cannot be negative"),
+                Arguments.of("""
+                        {"type": "RESULT", "result": {"home_team": "", "away_team": "B", "home_score": 1, "away_score": 0}}
+                        """, "INVALID_JSON", "Team names cannot be null or empty"),
+                Arguments.of("""
+                        {"type": "RESULT", "result": {"home_team": "A", "away_team": null, "home_score": 1, "away_score": 0}}
+                        """, "INVALID_JSON", "Team names cannot be null or empty"),
+                Arguments.of("""
+                        {"type": "GET_STATISTICS", "get_statistics": {"teams": []}}
+                        """, "INVALID_JSON", "Teams list cannot be null or empty")
         );
     }
 }

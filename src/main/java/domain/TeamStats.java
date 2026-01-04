@@ -20,7 +20,7 @@ public class TeamStats {
         totalPoints += outcome.points();
 
         lastMatches.addFirst(new Match(scored, conceded, outcome));
-        while (lastMatches.size() > 3) {
+        if (lastMatches.size() > 3) {
             lastMatches.removeLast();
         }
     }

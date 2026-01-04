@@ -13,6 +13,9 @@ public record ResultEvent(
             @JsonProperty("away_score") int awayScore
     ) {
         public Result {
+            if (homeTeam == null || homeTeam.isBlank() || awayTeam == null || awayTeam.isBlank()) {
+                throw new IllegalArgumentException("Team names cannot be null or empty");
+            }
             if (homeScore < 0 || awayScore < 0) {
                 throw new IllegalArgumentException("Scores cannot be negative");
             }

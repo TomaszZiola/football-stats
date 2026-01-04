@@ -10,11 +10,11 @@ import domain.ResultEvent;
 
 public final class MessageParser {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     public Event parseEvent(String jsonLine) {
         try {
-            var root = objectMapper.readTree(jsonLine);
+            var root = OBJECT_MAPPER.readTree(jsonLine);
             if (!root.isObject()) {
                 throw new EventParseException("INVALID_JSON", "Input must be a JSON object");
             }
@@ -25,11 +25,12 @@ public final class MessageParser {
             final var eventType = getEventType(typeNode);
 
             return switch (eventType) {
-                case RESULT -> objectMapper.treeToValue(root, ResultEvent.class);
-                case GET_STATISTICS -> objectMapper.treeToValue(root, GetStatisticsEvent.class);
+                case RESULT -> OBJECT_MAPPER.treeToValue(root, ResultEvent.class);
+                case GET_STATISTICS -> OBJECT_MAPPER.treeToValue(root, GetStatisticsEvent.class);
             };
         } catch (JsonProcessingException error) {
-            throw new EventParseException("INVALID_JSON", "Invalid JSON", error);
+            var message = error.getCause() != null ? error.getCause().getMessage() : error.getMessage();
+            throw new EventParseException("INVALID_JSON", message, error);
         }
     }
 

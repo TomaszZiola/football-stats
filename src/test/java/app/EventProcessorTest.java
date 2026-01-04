@@ -6,6 +6,7 @@ import utils.BaseUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -40,5 +41,19 @@ class EventProcessorTest extends BaseUnit {
 
         // then
         verify(parser, never()).parseEvent(any());
+    }
+
+    @Test
+    void shouldHandleGenericException() {
+        // given
+        when(parser.parseEvent(any())).thenThrow(new RuntimeException("Boom"));
+
+        // when
+        EventParseException exception = assertThrows(EventParseException.class,
+                () -> processorImpl.processLine(line, 1));
+
+        // then
+        assertEquals("PROCESS_ERROR", exception.code());
+        assertTrue(exception.getMessage().contains("Error processing line 1: Boom"));
     }
 }

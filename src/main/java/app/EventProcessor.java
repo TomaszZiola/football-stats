@@ -41,6 +41,13 @@ public class EventProcessor {
                             lineNumber, exception.code(), exception.getMessage(), trimmedLine),
                     exception
             );
+        } catch (Exception exception) {
+            throw new EventParseException(
+                    "PROCESS_ERROR",
+                    String.format("Error processing line %d: %s | input=%s",
+                            lineNumber, exception.getMessage(), trimmedLine),
+                    exception
+            );
         }
     }
 }

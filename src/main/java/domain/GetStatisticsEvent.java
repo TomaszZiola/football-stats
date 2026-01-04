@@ -11,5 +11,10 @@ public record GetStatisticsEvent(
     public record GetStatistics(
             List<String> teams
     ) {
+        public GetStatistics {
+            if (teams == null || teams.isEmpty()) {
+                throw new IllegalArgumentException("Teams list cannot be null or empty");
+            }
+        }
     }
 }
