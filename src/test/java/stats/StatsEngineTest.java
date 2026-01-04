@@ -12,12 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class StatsEngineTest extends BaseUnit {
 
     @Test
-    void testOnResult() {
+    void shouldHandleResultEvent() {
         // given
         var event = new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "Barcelona", 3, 0));
 
         // when
-        var output = engine.onResult(event);
+        var output = engineImpl.onResult(event);
 
         // then
         assertEquals(2, output.size());
@@ -26,12 +26,12 @@ class StatsEngineTest extends BaseUnit {
     }
 
     @Test
-    void testOnResultDraw() {
+    void shouldHandleDrawResultEvent() {
         // given
         var event = new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "Barcelona", 1, 1));
 
         // when
-        var output = engine.onResult(event);
+        var output = engineImpl.onResult(event);
 
         // then
         assertEquals(2, output.size());
@@ -40,28 +40,28 @@ class StatsEngineTest extends BaseUnit {
     }
 
     @Test
-    void testOnResultTotalStats() {
+    void shouldTrackTotalStatsAcrossMultipleResults() {
         // when
-        engine.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamA", 1, 0)));
-        engine.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamB", 1, 0)));
-        engine.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamC", 1, 0)));
-        var output = engine.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamD", 1, 0)));
+        engineImpl.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamA", 1, 0)));
+        engineImpl.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamB", 1, 0)));
+        engineImpl.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamC", 1, 0)));
+        var output = engineImpl.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamD", 1, 0)));
 
         // then
         assertEquals("Bayern 4 12 4 0", output.getFirst());
     }
 
     @Test
-    void testOnGetStatistics() {
+    void shouldHandleGetStatisticsEvent() {
         // given
-        engine.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamA", 1, 0)));
-        engine.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamB", 0, 1)));
-        engine.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamC", 2, 2)));
-        engine.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamD", 3, 1)));
+        engineImpl.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamA", 1, 0)));
+        engineImpl.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamB", 0, 1)));
+        engineImpl.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamC", 2, 2)));
+        engineImpl.onResult(new ResultEvent(EventType.RESULT, new ResultEvent.Result("Bayern", "TeamD", 3, 1)));
         var event = new GetStatisticsEvent(EventType.GET_STATISTICS, new GetStatisticsEvent.GetStatistics(of("Bayern", "Barcelona")));
 
         // when
-        var output = engine.onGetStatistics(event);
+        var output = engineImpl.onGetStatistics(event);
 
         // then
         assertEquals(2, output.size());

@@ -4,11 +4,10 @@ import app.Main;
 import org.junit.jupiter.api.Test;
 import parser.EventParseException;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class IntegrationTest {
 
     @Test
-    void testFullPipeline() throws IOException {
+    void shouldProcessFullPipeline() throws IOException {
         // given
         var expected = """
                 Bayern 1 3 3 0
@@ -39,7 +38,7 @@ class IntegrationTest {
     }
 
     @Test
-    void testWithEmptyLines() throws IOException {
+    void shouldHandleEmptyLines() throws IOException {
         // given
         var expected = """
                 Bayern 1 3 3 0
@@ -62,9 +61,11 @@ class IntegrationTest {
     }
 
     @Test
-    void testWithInvalidLines() {
+    void shouldHandleInvalidLines() {
         // when
-        var exception = assertThrows(EventParseException.class, () -> Main.run("messagesWithInvalidLines.txt"));
+        var exception = assertThrows(EventParseException.class,
+                () -> Main.run("messagesWithInvalidLines.txt", ignore -> {
+                }));
 
         // then
         assertEquals("INVALID_JSON", exception.code());
@@ -72,9 +73,11 @@ class IntegrationTest {
     }
 
     @Test
-    void testWithNullType() {
+    void shouldHandleNullType() {
         // when
-        var exception = assertThrows(EventParseException.class, () -> Main.run("messagesWithNullType.txt"));
+        var exception = assertThrows(EventParseException.class,
+                () -> Main.run("messagesWithNullType.txt", ignore -> {
+                }));
 
         // then
         assertEquals("UNKNOWN_TYPE", exception.code());
@@ -82,9 +85,10 @@ class IntegrationTest {
     }
 
     @Test
-    void testWithInvalidType() {
+    void shouldHandleInvalidType() {
         // when
-        var exception = assertThrows(EventParseException.class, () -> Main.run("messagesWithInvalidType.txt"));
+        var exception = assertThrows(EventParseException.class,
+                () -> Main.run("messagesWithInvalidType.txt", ignore -> {}));
 
         // then
         assertEquals("UNKNOWN_TYPE", exception.code());
@@ -92,17 +96,13 @@ class IntegrationTest {
     }
 
     private String runAndCapture(String resourceName) throws IOException {
-        var outputByteStream = new ByteArrayOutputStream();
-        var consoleOutput = new PrintStream(outputByteStream, true, UTF_8);
-        var outputStream = System.out;
-        System.setOut(consoleOutput);
+        List<String> capturedOutput = new ArrayList<>();
 
-        try {
-            Main.run(resourceName);
-        } finally {
-            System.setOut(outputStream);
+        Main.run(resourceName, capturedOutput::add);
+
+        if (capturedOutput.isEmpty()) {
+            return "";
         }
-
-        return outputByteStream.toString(UTF_8);
+        return String.join("\n", capturedOutput) + "\n";
     }
 }

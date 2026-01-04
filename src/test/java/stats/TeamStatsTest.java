@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TeamStatsTest extends BaseUnit {
 
     @Test
-    void testForm() {
+    void shouldTrackRecentForm() {
         stats.applyMatch(1, 0, Outcome.WIN);
         stats.applyMatch(1, 1, Outcome.DRAW);
         assertEquals("DW", stats.getRecentForm());
@@ -20,7 +20,7 @@ class TeamStatsTest extends BaseUnit {
     }
 
     @Test
-    void testLast3Aggregates() {
+    void shouldTrackAggregatesForLast3Matches() {
         stats.applyMatch(3, 0, Outcome.WIN);
         stats.applyMatch(1, 1, Outcome.DRAW);
         stats.applyMatch(0, 2, Outcome.LOSS);

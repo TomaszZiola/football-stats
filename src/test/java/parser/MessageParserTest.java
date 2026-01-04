@@ -18,9 +18,9 @@ class MessageParserTest extends BaseUnit {
 
     @ParameterizedTest
     @MethodSource("provideValidEvents")
-    void testParseValidEvents(String json, Class<?> expectedClass) throws EventParseException {
+    void shouldParseValidEvents(String json, Class<?> expectedClass) throws EventParseException {
         // when
-        var event = parser.parseEvent(json);
+        var event = parserImpl.parseEvent(json);
 
         // then
         assertInstanceOf(expectedClass, event);
@@ -39,9 +39,9 @@ class MessageParserTest extends BaseUnit {
 
     @ParameterizedTest
     @MethodSource("provideErrorCases")
-    void testParseErrors(String json, String errorJson, String expectedMessagePart) {
+    void shouldHandleParseErrors(String json, String errorJson, String expectedMessagePart) {
         // when & then
-        var exception = assertThrows(EventParseException.class, () -> parser.parseEvent(json));
+        var exception = assertThrows(EventParseException.class, () -> parserImpl.parseEvent(json));
         assertEquals(errorJson, exception.code());
         if (expectedMessagePart != null) {
             assertTrue(exception.getMessage().contains(expectedMessagePart));

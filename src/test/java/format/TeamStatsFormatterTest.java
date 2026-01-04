@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TeamStatsFormatterTest extends BaseUnit {
 
     @Test
-    void testFormatResult() {
+    void shouldFormatResult() {
         // given
         stats.applyMatch(2, 1, Outcome.WIN);
 
@@ -21,7 +21,7 @@ class TeamStatsFormatterTest extends BaseUnit {
     }
 
     @Test
-    void testFormatResultEmpty() {
+    void shouldFormatEmptyResult() {
         // when
         var result = TeamStatsFormatter.formatResult("Milan", stats);
 
@@ -30,7 +30,7 @@ class TeamStatsFormatterTest extends BaseUnit {
     }
 
     @Test
-    void testFormatStatistics() {
+    void shouldFormatStatistics() {
         // given
         stats.applyMatch(2, 1, Outcome.WIN);
         stats.applyMatch(1, 1, Outcome.DRAW);
@@ -45,7 +45,7 @@ class TeamStatsFormatterTest extends BaseUnit {
     }
 
     @Test
-    void testFormatStatisticsEmpty() {
+    void shouldFormatEmptyStatistics() {
         // when
         var result = TeamStatsFormatter.formatStatistics("Milan", stats);
 

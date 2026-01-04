@@ -16,7 +16,7 @@ class AverageFormatterTest {
             "3.6666667, 3.67",
             "0.0, 0.0"
     })
-    void testFormat(double input, String expected) {
+    void shouldFormatAverages(double input, String expected) {
         assertEquals(expected, AverageFormatter.format(input));
     }
 }
