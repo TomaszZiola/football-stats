@@ -1,17 +1,16 @@
 package format;
 
 import domain.Outcome;
-import domain.TeamStats;
 import org.junit.jupiter.api.Test;
+import utils.BaseUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class TeamStatsFormatterTest {
+class TeamStatsFormatterTest extends BaseUnit {
 
     @Test
     void testFormatResult() {
         // given
-        var stats = new TeamStats();
         stats.applyMatch(2, 1, Outcome.WIN);
 
         // when
@@ -23,9 +22,6 @@ class TeamStatsFormatterTest {
 
     @Test
     void testFormatResultEmpty() {
-        // given
-        var stats = new TeamStats();
-
         // when
         var result = TeamStatsFormatter.formatResult("Milan", stats);
 
@@ -36,7 +32,6 @@ class TeamStatsFormatterTest {
     @Test
     void testFormatStatistics() {
         // given
-        var stats = new TeamStats();
         stats.applyMatch(2, 1, Outcome.WIN);
         stats.applyMatch(1, 1, Outcome.DRAW);
         stats.applyMatch(0, 3, Outcome.LOSS);
@@ -51,9 +46,6 @@ class TeamStatsFormatterTest {
 
     @Test
     void testFormatStatisticsEmpty() {
-        // given
-        var stats = new TeamStats();
-
         // when
         var result = TeamStatsFormatter.formatStatistics("Milan", stats);
 

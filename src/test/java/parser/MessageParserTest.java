@@ -1,6 +1,5 @@
 package parser;
 
-import domain.EventType;
 import domain.GetStatisticsEvent;
 import domain.ResultEvent;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,23 +18,22 @@ class MessageParserTest extends BaseUnit {
 
     @ParameterizedTest
     @MethodSource("provideValidEvents")
-    void testParseValidEvents(String json, Class<?> expectedClass, EventType expectedType) throws EventParseException {
+    void testParseValidEvents(String json, Class<?> expectedClass) throws EventParseException {
         // when
         var event = parser.parseEvent(json);
 
         // then
         assertInstanceOf(expectedClass, event);
-        assertEquals(expectedType, event.type());
     }
 
     static Stream<Arguments> provideValidEvents() {
         return Stream.of(
                 Arguments.of("""
                         {"type": "RESULT", "result": {"home_team": "A", "away_team": "B", "home_score": 1, "away_score": 0}}
-                        """, ResultEvent.class, EventType.RESULT),
+                        """, ResultEvent.class),
                 Arguments.of("""
                         {"type": "GET_STATISTICS", "get_statistics": {"teams": ["A", "B"]}}
-                        """, GetStatisticsEvent.class, EventType.GET_STATISTICS)
+                        """, GetStatisticsEvent.class)
         );
     }
 

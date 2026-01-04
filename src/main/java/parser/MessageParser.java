@@ -12,7 +12,7 @@ public final class MessageParser {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public Event parseEvent(String jsonLine) throws EventParseException {
+    public Event parseEvent(String jsonLine) {
         try {
             var root = objectMapper.readTree(jsonLine);
             if (!root.isObject()) {
